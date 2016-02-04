@@ -46,6 +46,9 @@
 (comment defn keys [token]
   (util/salt-get token "keys"))
 
+; todo implement
+(comment defn keys! [token])
+
 ; todo test - doesn't even exist in the java lib
 (comment defn ws [token]
   (util/salt-get token "ws"))
