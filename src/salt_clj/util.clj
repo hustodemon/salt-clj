@@ -9,7 +9,7 @@
     (name kw)))
 
 (defn token->secret [token]
-  (:token (first (:return token))))
+  (:token (first token)))
 
 (defn parse-happy-response
   "Parses a body of a successful HTTP response."
@@ -17,7 +17,8 @@
   (-> res
     :body
     json/read-str
-    walk/keywordize-keys))
+    walk/keywordize-keys
+    :return))
 
 (defn build-url [token & url-chunks]
   (reduce 
