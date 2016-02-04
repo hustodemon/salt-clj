@@ -1,3 +1,9 @@
 # Introduction to salt-clj
 
-TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)
+This library talks to Salt using its [REST
+API](https://docs.saltstack.com/en/latest/ref/netapi/all/salt.netapi.rest_cherrypy.html)
+
+## Prerequisities
+* Salt master
+* Salt API
+

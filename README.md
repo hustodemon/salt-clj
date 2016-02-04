@@ -1,14 +1,17 @@
 # salt-clj
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure client for Salt REST API.
 
 ## Usage
 
-FIXME
+See
+* `test/salt_clj/examples.clj' file or docs of the functions,
+* the `doc` directory for some attempts to document this thing.
+
+## Todo
+* Fix commented functions
+* Async support (promises?)
 
 ## License
+See the `LICENSE` file.
 
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
