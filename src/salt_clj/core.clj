@@ -1,124 +1,60 @@
 (ns salt-clj.core
   (:require [clj-http.client :as http]
             [clojure.data.json :as json]
-            [clojure.walk :as walk]))
-
-; utils
-(declare happy-get happy-post parse-happy-response)
-
-(def url "http://172.17.0.2:8000/")
+            [clojure.walk :as walk]
+            [salt-clj.util :as util]))
 
 (defn login! [url params]
-  (happy-post
-    (str url "login")
-    nil
-    params))
+  (let [salt-token (-> 
+                     (http/post (str url "/login") {:form-params params})
+                     (util/parse-happy-response)
+                     (util/token->secret))]
+    {:url url
+     :password salt-token}))
+
+(defn logout! [token] ; todo check - it doesn't work
+  (util/salt-post token "logout" nil))
 
 (defn minions [token & mid]
-  (happy-get
-    (str url "minions/" (first mid))
-    token
-    nil))
+  (util/salt-get token "minions" (util/null-safe-name (first mid)))); todo name?
 
 (defn minions! [token data]
-  (happy-post
-    (str url "minions/")
-    token
-    data))
-
+  (util/salt-post token "minions" data))
+  
 (defn jobs [token & jid]
-  (happy-get
-    (str url "jobs/" (first jid))
-    token
-    nil))
+  (util/salt-get token "jobs" (util/null-safe-name (first jid))))
 
-; utils
-(defn token->secret [token]
-  (:token (first (:return token))))
+(comment defn events [token] ; todo test
+  (util/salt-get token "events"))
 
-(defn parse-happy-response
-  "Parses a body of a successful HTTP response."
-  [res]
-  (-> res
-    :body
-    json/read-str
-    walk/keywordize-keys))
+(comment defn keys [token] ; todo test
+  (util/salt-get token "keys"))
 
-(defn happy-get
-  "Performs GET on url with given security token and parameters, returns the
-  body of the response."
-  [url token params]; todo params form?
-  (-> 
-    (http/get url {:headers {:X-Auth-Token token}
-                   :form-params params})
-    parse-happy-response))
+(comment defn ws [token]
+  (util/salt-get token "ws"))
 
-(defn happy-post
-  "Performs POST on url with given security token and parameters, returns the
-  body of the response."
-  [url token params]
-  (-> 
-    (http/post url {:headers {:X-Auth-Token token}
-                    :form-params params})
-    parse-happy-response))
+(comment defn stats [token] ; probably doesn't work
+  (util/salt-get token "stats"))
 
 ; examples
 (comment
-  (def token (token->secret
-               (login! url {:username "root" 
-                            :password "root"
-                            :eauth "auto"})))
-  
+  (def url "http://172.17.0.2:8000")
+  (def token
+    (login! url {:username "root" 
+                 :password "root"
+                 :eauth "auto"}))
+
+  (logout! token)
+
   (minions token)
+
   (minions! token {:tgt "*"
                    :fun "test.ping"})
-  (happy-post  )
-
   (minions! token {:tgt "*"
                    :fun "cmd.run"
                    :arg "date"})
-
   
-  (jobs token 20160203075336876551)
-  (jobs token 20160203084658956495)
-
-  (get-in
-    (first
-      (get-in
-        (json/read-str
-          (:body
-            (http/get
-              (str url "minions")
-              {:headers {:X-Auth-Token (token-raw token)}})))
-        ["return"]))
-    ["b0bba2673dda" "kernel"])
-
-  (http/post
-    (str url "minions")
-    {:form-params {:tgt "*"
-                   :fun "test.ping"}
-     :headers {:X-Auth-Token token}})
-
-  (http/post
-    (str url "minions")
-    {:form-params {:tgt "*"
-                   :fun "grains.items"}
-     :headers {:X-Auth-Token (token-raw token)}})
-
-  (json/read-str 
-    (:body
-      (http/get 
-        (str url "jobs/20160202164546207189")
-        {:headers {:X-Auth-Token (token-raw token)}}))))
-
-
-; Things to do:
-; 'login': Login,
-; 'logout': Logout,
-; 'minions': Minions,
-; 'run': Run,
-; 'jobs': Jobs,
-; 'keys': Keys,
-; 'events': Events,
-; 'stats': Stats,
+  (jobs token :20160203164905066391)
+  (jobs token :20160203075336876551)
+)
 
