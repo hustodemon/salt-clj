@@ -19,7 +19,7 @@
   ([token]
    (minions token nil))
   ([token mid]
-   (util/salt-get token "minions" (util/null-safe-name mid))))
+   (util/salt-get token "minions" (util/nil-safe-name mid))))
 
 (defn minions! [token data]
   (util/salt-post token "minions" data))
@@ -28,7 +28,7 @@
   ([token] 
    (jobs token nil))
   ([token jid]
-   (util/salt-get token "jobs" (util/null-safe-name jid))))
+   (util/salt-get token "jobs" (util/nil-safe-name jid))))
 
 (comment defn hook! [token data]
   (util/salt-post token "hook" data))

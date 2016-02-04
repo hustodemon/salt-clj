@@ -3,7 +3,7 @@
             [clojure.data.json :as json]
             [clojure.walk :as walk]))
 
-(defn null-safe-name [kw]
+(defn nil-safe-name [kw]
   (if (nil? kw)
     nil
     (name kw)))
