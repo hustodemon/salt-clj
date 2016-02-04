@@ -51,25 +51,3 @@
 (comment defn stats [token]
   (util/salt-get token "stats"))
 
-; examples
-(comment
-  (def url "http://172.17.0.2:8000")
-  (def token
-    (login! url {:username "root" 
-                 :password "root"
-                 :eauth "auto"}))
-
-  (logout! token)
-
-  (minions token)
-
-  (minions! token {:tgt "*"
-                   :fun "test.ping"})
-  (minions! token {:tgt "*"
-                   :fun "cmd.run"
-                   :arg "date"})
-  
-  (jobs token :20160203164905066391)
-  (jobs token :20160203075336876551)
-)
-
