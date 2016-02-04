@@ -21,6 +21,14 @@
 (jobs token "20160203164905066391")
 (jobs token :20160203075336876551)
 
+(run! token {:username "root"
+             :password "root"
+             :eauth "auto"
+             :fun "cmd.run"
+             :arg "date"
+             :tgt "*"
+             :client "local"})
+
 (comment hook! token {:foo 1
               :bar "barbar"})
 (comment events token)

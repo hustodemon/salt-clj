@@ -31,6 +31,9 @@
   ([token jid]
    (util/salt-get token "jobs" (util/nil-safe-name jid))))
 
+(defn run! [token data]
+  (util/salt-post token "run" data))
+
 ; todo test (404 in my setup also in the java lib)
 (comment defn hook! [token data]
   (util/salt-post token "hook" data))
