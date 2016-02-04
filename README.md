@@ -5,7 +5,7 @@ A Clojure client for Salt REST API.
 ## Usage
 
 See
-* `test/salt_clj/examples.clj' file or docs of the functions,
+* `test/salt_clj/examples.clj` file or docs of the functions,
 * the `doc` directory for some attempts to document this thing.
 
 ## Todo
