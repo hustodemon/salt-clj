@@ -15,14 +15,23 @@
 (defn logout! [token] ; todo check - it doesn't work
   (util/salt-post token "logout" nil))
 
-(defn minions [token & mid]
-  (util/salt-get token "minions" (util/null-safe-name (first mid)))); todo name?
+(defn minions 
+  ([token]
+   (minions token nil))
+  ([token mid]
+   (util/salt-get token "minions" (util/null-safe-name mid))))
 
 (defn minions! [token data]
   (util/salt-post token "minions" data))
   
-(defn jobs [token & jid]
-  (util/salt-get token "jobs" (util/null-safe-name (first jid))))
+(defn jobs
+  ([token] 
+   (jobs token nil))
+  ([token jid]
+   (util/salt-get token "jobs" (util/null-safe-name jid))))
+
+(comment defn hook! [token data]
+  (util/salt-post token "hook" data))
 
 (comment defn events [token] ; todo test
   (util/salt-get token "events"))
