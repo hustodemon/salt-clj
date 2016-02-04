@@ -12,7 +12,7 @@
     {:url url
      :password salt-token}))
 
-; todo check - it doesn't work
+; todo check - it doesn't work (although the API returns 200!!!!!)
 (defn logout! [token]
   (util/salt-post token "logout" nil))
 
