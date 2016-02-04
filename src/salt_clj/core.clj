@@ -12,7 +12,8 @@
     {:url url
      :password salt-token}))
 
-(defn logout! [token] ; todo check - it doesn't work
+; todo check - it doesn't work
+(defn logout! [token]
   (util/salt-post token "logout" nil))
 
 (defn minions 
@@ -30,19 +31,24 @@
   ([token jid]
    (util/salt-get token "jobs" (util/nil-safe-name jid))))
 
+; todo test (404 in my setup also in the java lib)
 (comment defn hook! [token data]
   (util/salt-post token "hook" data))
 
-(comment defn events [token] ; todo test
+; todo test - for me it freezes, java lib says "handshake error"
+(comment defn events [token] 
   (util/salt-get token "events"))
 
-(comment defn keys [token] ; todo test
+; todo test (doesn't work in the java lib either - 404)
+(comment defn keys [token]
   (util/salt-get token "keys"))
 
+; todo test - doesn't even exist in the java lib
 (comment defn ws [token]
   (util/salt-get token "ws"))
 
-(comment defn stats [token] ; probably doesn't work
+; 404 in java lib too
+(comment defn stats [token]
   (util/salt-get token "stats"))
 
 ; examples
