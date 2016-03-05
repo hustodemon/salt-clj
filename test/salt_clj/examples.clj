@@ -47,13 +47,5 @@
              :tgt "*"
              :client "local"})
 
-; todo fix those guys:
-(comment hook! token {:foo 1
-              :bar "barbar"})
-(comment events token)
-(comment keys token)
-;
-
-; Let's logout (currently broken)
 (logout! token)
 
